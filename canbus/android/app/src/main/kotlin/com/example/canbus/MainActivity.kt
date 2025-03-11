@@ -31,8 +31,13 @@ class MainActivity: FlutterActivity() {
     }
 
     private fun readCanData(): String {
+      // Testing can data
+      val rawData = "0x12 0x34 0x56 0x78 0x9A 0xBC 0xDE 0xF0"
+      print("Return raw data")
+      return rawData
+
       print("Find USB devices")
-        val usbManager = getSystemService(USB_SERVICE) as UsbManager
+      val usbManager = getSystemService(USB_SERVICE) as UsbManager
       val deviceList = usbManager.deviceList
       if (deviceList.isEmpty()) return "No USB device found."
 
