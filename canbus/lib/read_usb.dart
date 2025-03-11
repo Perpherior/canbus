@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class ReadCanbusData extends StatelessWidget {
-  final IconData icon; // 按钮图标
-  final String tooltip; // 长按提示
-  final Color backgroundColor; // 按钮背景颜色
+  final IconData icon;
+  final String tooltip;
+  final Color backgroundColor;
 
   const ReadCanbusData({
     super.key,
@@ -21,7 +21,7 @@ class ReadCanbusData extends StatelessWidget {
         try {
           // 发送读取指令（例如：请求CAN数据）
           final String data = await channel.invokeMethod('readCanData');
-          print('Received CAN Data?: $data');
+          print('Received CAN Data: $data');
         } on PlatformException catch (e) {
           print("Error: ${e.message}");
         }
