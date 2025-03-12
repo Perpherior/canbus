@@ -1,8 +1,15 @@
+import 'package:canbus/canbus_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:canbus/read_usb.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    // const MyApp()
+    ChangeNotifierProvider(
+      create: (context) => CanbusProvider(),
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -31,28 +38,56 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    final canbusData = context.watch<CanbuData>();
-    
+    final canbusProvider = context.watch<CanbusProvider>();
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '1',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
+      body: Consumer<CanbusProvider>(
+        builder: (context, canbusProvider, child) {
+          return _buildBody(canbusProvider);
+        },
       ),
-      floatingActionButton: ReadCanbusData(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          canbusProvider.fetchCanbusData(); // 触发数据加载
+        },
+        child: Icon(Icons.refresh),
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop, 
     );
     
+  }
+
+  Widget _buildBody(CanbusProvider canbusProvider) {
+    if (canbusProvider.isLoading) {
+      return Center(child: CircularProgressIndicator());
+    } else if (canbusProvider.error.isNotEmpty) {
+      return Center(child: Text(canbusProvider.error));
+    } else if (canbusProvider.data.isEmpty) {
+      return Center(child: Text('No data found. Tap the button to load data.'));
+    } else {
+      final data = canbusProvider.data;
+      return ListView.builder(
+        itemCount: data.length,
+        itemBuilder: (context, index) {
+          final frame = data[index];
+          return Container(
+            width: 100,
+            height: 100,
+            margin: EdgeInsets.all(10),
+            color: Colors.blue,
+            child: Center(
+              child: Text(
+                frame,
+                style: TextStyle(color: Colors.white, fontSize: 18),
+              ),
+            ),
+          );
+        },
+      );
+    }
   }
 }

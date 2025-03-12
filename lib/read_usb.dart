@@ -22,7 +22,6 @@ class ReadCanbusData extends StatelessWidget {
           // 发送读取指令（例如：请求CAN数据）
           final String data = await channel.invokeMethod('readCanData');
           print('Received CAN Data: $data');
-          Changenoti
         } on PlatformException catch (e) {
           print("Error: ${e.message}");
         }
