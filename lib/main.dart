@@ -52,7 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          canbusProvider.fetchCanbusData(); // 触发数据加载
+          canbusProvider.fetchCanbusData(); // Fetching CAN Data
         },
         child: Icon(Icons.refresh),
       ),
@@ -81,7 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
             color: Colors.blue,
             child: Center(
               child: Text(
-                frame,
+                frame.pgn,
                 style: TextStyle(color: Colors.white, fontSize: 18),
               ),
             ),
