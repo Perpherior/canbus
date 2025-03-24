@@ -5,12 +5,12 @@ part 'rv_can_frame.g.dart';
 
 @JsonSerializable()
 class RvCanFrame {
-  final String pgn;       // 参数组编号 (PGN，16进制格式)
+  final String dgn;       // 参数组编号 (dGN，16进制格式)
   final String source;    // 源地址 (16进制格式)
   final List<String> data; // 数据 (16进制字符串列表)
 
   RvCanFrame({
-    required this.pgn,
+    required this.dgn,
     required this.source,
     required this.data,
   });
@@ -21,9 +21,9 @@ class RvCanFrame {
       throw FormatException("Invalid RV-C frame: length < 8 bytes");
     }
 
-    // 解析 PGN (3字节)
-    final pgnBytes = bytes.sublist(1, 4);
-    final pgn = pgnBytes.map((b) => b.toRadixString(16).padLeft(2, '0')).join();
+    // 解析 dGN (3字节)
+    final dgnBytes = bytes.sublist(1, 4);
+    final dgn = dgnBytes.map((b) => b.toRadixString(16).padLeft(2, '0')).join();
 
     // 解析源地址 (1字节)
     final source = bytes[4].toRadixString(16).padLeft(2, '0');
@@ -32,7 +32,7 @@ class RvCanFrame {
     final dataBytes = bytes.sublist(5, 8);
     final data = dataBytes.map((b) => b.toRadixString(16).padLeft(2, '0')).toList();
 
-    return RvCanFrame(pgn: pgn, source: source, data: data);
+    return RvCanFrame(dgn: dgn, source: source, data: data);
   }
 
   /// 转换为 JSON
@@ -44,6 +44,6 @@ class RvCanFrame {
 
   @override
   String toString() {
-    return 'RvCanFrame(pgn: $pgn, source: $source, data: $data)';
+    return 'RvCanFrame(dgn: $dgn, source: $source, data: $data)';
   }
 }
