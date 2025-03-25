@@ -9,8 +9,9 @@ class TabletBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
+    final nodes = testNodes;
+
     return Scaffold(
-      // backgroundColor: Colors.deepPurple[200],
       appBar: AppBar(
         title: Text('T A B L E T $width'),
       ),
@@ -21,38 +22,24 @@ class TabletBody extends StatelessWidget {
             spacing: 30,
             children: [
               Expanded(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Wrap(
-                        direction: Axis.horizontal,
-                        spacing: 30,
-                        runSpacing: 12.0,
-                        children: [
-                          UniversalCard(
-                            icon: Icons.lightbulb_outline,
-                            title: "客厅主灯",
-                            subtitle: "已开启",
-                            isActive: true,
+                child:
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child:
+                      GridView.count(
+                        shrinkWrap: true,
+                        crossAxisCount: 2, // 每行显示 2 个
+                        childAspectRatio: 1.8, // 宽高比
+                        mainAxisSpacing: 20, // 垂直间距
+                        crossAxisSpacing: 20, // 水平间距
+                        children: 
+                        List.generate(
+                          nodes.length, // 总数量
+                          (index) => 
+                            UniversalCard(data: nodes[index]),
                           ),
-                          UniversalCard (
-                            icon: Icons.thermostat,
-                            title: "空调系统",
-                            subtitle: "制冷模式 · 26℃",
-                            isActive: false,
-                          ),
-                          UniversalCard(
-                            icon: Icons.security,
-                            title: "安防系统",
-                            subtitle: "布防中",
-                            isActive: true,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+                        ),
+                  )
               ),
               SizedBox(
                 width: sidebarWidth,

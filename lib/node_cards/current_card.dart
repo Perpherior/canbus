@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:canbus/canbus_provider.dart';
+// import 'package:canbus/canbus_provider.dart';
 import 'dart:ui';
 
 class CurrentCard extends StatefulWidget {

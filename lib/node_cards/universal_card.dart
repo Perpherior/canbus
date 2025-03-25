@@ -1,19 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:canbus/canbus_provider.dart';
+// import 'package:canbus/canbus_provider.dart';
 import 'dart:ui';
 import 'package:canbus/responsive/dimensions.dart';
 
 class UniversalCard extends StatefulWidget {
-  final IconData icon;
-  final String title;
-  final String subtitle;
-  final bool isActive;
+  final Map<String, dynamic> data;
 
-  const UniversalCard({
-    required this.icon,
-    required this.title,
-    required this.subtitle,
-    required this.isActive,
+  const UniversalCard({super.key,
+    required this.data
   });
 
   @override
@@ -26,23 +20,19 @@ class _UniversalCardState extends State<UniversalCard> {
   @override
   void initState() {
     super.initState();
-    _isActive = widget.isActive;
+    _isActive = widget.data['isActive'];
   }
 
   @override
   Widget build(BuildContext context) {
     // final canbusProvider = context.watch<CanbusProvider>();
 
-    return SizedBox(
-      // Card width and height
-      width: (MediaQuery.sizeOf(context).width - sidebarWidth) / 2 - 70,
-      height: 250,
-      child: Container(
+    return Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           color: _isActive 
-            ? Colors.white.withValues(alpha: 0.1)
-            : Colors.grey.withValues(alpha: 0.5),
+            ? Colors.white.withValues(alpha: 0.5)
+            : Colors.grey.withValues(alpha: 0.8),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.1),
@@ -80,13 +70,18 @@ class _UniversalCardState extends State<UniversalCard> {
                               : Colors.grey.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(100),
                         ),
-                        child: Icon(
-                          widget.icon,
-                          color: _isActive
-                              ? Theme.of(context).colorScheme.primary
-                              : Colors.grey[600],
-                          size: 28,
-                        ),
+                        child: 
+                          FractionallySizedBox(
+                            widthFactor: 0.5,
+                            heightFactor: 0.5,
+                            child: Icon(
+                              widget.data['icon'],
+                              color: _isActive
+                                ? Theme.of(context).colorScheme.primary
+                                : Colors.grey[600],
+                            size: 28,
+                                                     ),
+                          ),
                       ),
                       const SizedBox(width: 100),
                       
@@ -121,7 +116,7 @@ class _UniversalCardState extends State<UniversalCard> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              widget.title,
+                              widget.data['title'],
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w600,
@@ -130,7 +125,7 @@ class _UniversalCardState extends State<UniversalCard> {
                             ),
                             const SizedBox(height: 4),
                             Text(
-                              widget.subtitle,
+                              widget.data['subtitle'],
                               style: TextStyle(
                                 fontSize: 16,
                                 color: Colors.grey[600],
@@ -146,7 +141,6 @@ class _UniversalCardState extends State<UniversalCard> {
             ),
           ),
         ),
-      ),
     );
   }
 }
